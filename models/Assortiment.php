@@ -1,0 +1,138 @@
+<?php
+
+/**
+ * This is the model class for table "tbl_assortiment".
+ *
+ * The followings are the available columns in table 'tbl_assortiment':
+ * @property integer $id
+ * @property string $description_ru
+ * @property string $description_et
+ * @property string $description_en
+ * @property integer $category_id
+ * @property integer $rating
+ * @property string $shown
+ * @property string $name_ru
+ * @property string $name_et
+ * @property string $name_en
+ * @property double $prise
+ * @property double $prise_old
+ */
+class Assortiment extends CActiveRecord
+{
+
+// assortiment_img value
+public $icon;
+// Delete picture boolean
+public $del_img;
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'tbl_assortiment';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('description_ru, description_et, description_en, category_id, rating, prise', 'required'),
+			array('category_id, rating', 'numerical', 'integerOnly'=>true),
+			array('prise, prise_old', 'numerical'),
+			array('name_ru, name_et, name_en', 'length', 'max'=>255),
+			array('shown', 'safe'),
+			array('icon', 'file','types'=>'jpg, gif, png','maxSize'=>1024 * 1024 * 5, // 5MB
+			'allowEmpty'=>'true','tooLarge'=>'The file was larger than 5MB. Please upload a smaller file.',
+            ),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('id, description_ru, description_et, description_en, category_id, rating, shown, name_ru, name_et, name_en, prise, prise_old', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		 return array('category' => array(self::BELONGS_TO, 'Category', 'category_id'),
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'description_ru' => 'Description Ru',
+			'description_et' => 'Description Et',
+			'description_en' => 'Description En',
+			'category_id' => 'Category',
+			'rating' => 'Rating',
+			'shown' => 'Show in catalog?',
+			'icon' => 'Image',
+			'del_img'=>'Delete image?',
+			'name_ru' => 'Name Ru',
+			'name_et' => 'Name Et',
+			'name_en' => 'Name En',
+			'prise' => 'Prise',
+			'prise_old' => 'Prise Old',
+		);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('description_ru',$this->description_ru,true);
+		$criteria->compare('description_et',$this->description_et,true);
+		$criteria->compare('description_en',$this->description_en,true);
+		$criteria->compare('category_id',$this->category_id);
+		$criteria->compare('rating',$this->rating);
+		$criteria->compare('shown',$this->shown,true);
+		$criteria->compare('name_ru',$this->name_ru,true);
+		$criteria->compare('name_et',$this->name_et,true);
+		$criteria->compare('name_en',$this->name_en,true);
+		$criteria->compare('prise',$this->prise);
+		$criteria->compare('prise_old',$this->prise_old);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Assortiment the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+}
