@@ -42,9 +42,9 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
-			
-//'page=<id:\w+>'=>'staticpage/sppage/view',
-'page=<id:\w+>'=>'staticpage/sppage/view',
+
+'page=<id:\w+>'=>'staticpage/sppage/view',			
+//'page=<url:\w+>'=>'staticpage/sppage/view',
 'page/<action:\w+>/<id:\w+>'=>'staticpage/sppage/<action>',		
 'page/<action:\w+>'=>'staticpage/sppage/<action>',
 		
@@ -52,15 +52,9 @@ return array(
 'message/<id:\d+>'=>'staticpage/spmessage/view',
 'message/<action:\w+>/<id:\d+>'=>'staticpage/spmessage/<action>',		
 'message/<action:\w+>'=>'staticpage/spmessage/<action>',
-			
-/*			
-'page'=>'staticpage/sppage',
-'page/'=>'staticpage/sppage/view',
-'message'=>'staticpage/spmessage',
-'message/'=>'staticpage/spmessage/view',
-*/
-'<_c:(assortiment|category)>/'=>'<_c>/view',
-'assortiment/category='=>'assortiment/index',
+
+'<_c:(assortiment|category)>/<id:\d+>'=>'<_c>/view',
+'assortiment/category=<category:\d+>'=>'assortiment/index',
 			/*
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',

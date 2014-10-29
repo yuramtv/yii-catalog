@@ -131,7 +131,7 @@ class Sppage extends CActiveRecord
 			foreach($models as $val)
 			{
 			$r[] =   array(
-			'label'=>$val->name, 
+			'label'=>$val->name_ru, 
 			'url'=>array('/page='.$val->url),
 			'active' => ($val->url == preg_replace("|[^a-z0-9]|i", NULL,$_GET['id'])),
 			);

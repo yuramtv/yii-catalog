@@ -27,7 +27,19 @@
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
+		<?php 
+
+//Без этой строки модуль не будет найден (ох как долго я это искал!)
+Yii::app()->getModule('staticpage');
+$this->widget('zii.widgets.CMenu',array(
+//Так запуская метод из модуля 
+//Сначала у меня была ошибка: Sppage было написано с 
+//маленькой буквы, работало только в windows, а в linux 
+//вылетала ошибка
+'items'=>Sppage::Staticpages_menu() ));
+		
+		
+		$this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
@@ -42,7 +54,9 @@
 				
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
-		)); ?>
+		)); 
+
+		?>
 	</div><!-- mainmenu -->
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
