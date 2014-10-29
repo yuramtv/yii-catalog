@@ -111,4 +111,40 @@ class Sppage extends CActiveRecord
 		return parent::model($className);
 	}
 	
+				/**
+			* Returns all staticpages.
+			*/
+			// Буду генерировать массив пунктов меню $r. 
+			public function Staticpages_menu()
+			{
+			//Первый пункт меню: Каталог. 
+			$r[] =   array('label'=>'Catalog', 'url'=>array('/assortiment/'), 
+			 'active' => Yii::app()->controller->getId() == 'assortiment');
+			//Далее беру все записи из модели  sppage отсортированные по полю 'sorting' 
+			//  и имеющие атрибут 'shown'=yes
+			$models = sppage::model()->findAll(
+			array('order' => 'sorting',
+			'condition' => 'shown = "yes"',
+			)
+			);
+			//Прохожусь по всем строкам и генерую на их основе меню (элементы массива $r)
+			foreach($models as $val)
+			{
+			$r[] =   array(
+			'label'=>$val->name, 
+			'url'=>array('/page='.$val->url),
+			'active' => ($val->url == preg_replace("|[^a-z0-9]|i", NULL,$_GET['id'])),
+			);
+			}
+			//В конец меню добавляю пункт Контакт, логин, логофф.
+			$r[] =	array('label'=>'Contact', 'url'=>array('/site/contact'));
+			$r[] =	array('label'=>'Login', 'url'=>array('/site/login'), 
+			'visible'=>Yii::app()->user->isGuest);
+			$r[] =	array('label'=>'Logout', 'url'=>array('/site/logout'), 
+			'visible'=>!Yii::app()->user->isGuest);    				
+			
+			//Данный метод возвращает массив пунктов меню
+			return $r;
+			}
+	
 }
